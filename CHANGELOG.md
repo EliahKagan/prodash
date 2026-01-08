@@ -5,6 +5,92 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 31.0.0 (2026-01-08)
+
+### Chore
+
+ - <csr-id-7d21bb5cff9a7df720e9e56419235e76a9924f0b/> Update various dependnecies
+
+### Bug Fixes
+
+ - <csr-id-3df00691101d2d21eeb82df03dbe1ca3bf45263e/> fix a few broken doc links
+
+### Other
+
+ - <csr-id-8bdc42571ebdda35a05df55129b0a759698b10f6/> bump actions/checkout in the github-actions group
+   Bumps the github-actions group with 1 update: [actions/checkout](https://github.com/actions/checkout).
+   
+   
+   Updates `actions/checkout` from 5 to 6
+   - [Release notes](https://github.com/actions/checkout/releases)
+   - [Changelog](https://github.com/actions/checkout/blob/main/CHANGELOG.md)
+   - [Commits](https://github.com/actions/checkout/compare/v5...v6)
+   
+   ---
+   updated-dependencies:
+   - dependency-name: actions/checkout
+     dependency-version: '6'
+     dependency-type: direct:production
+     update-type: version-update:semver-major
+     dependency-group: github-actions
+   ...
+ - <csr-id-2717e5b4fdb86099913764fc4e004c0c00c78a08/> bump actions/checkout in the github-actions group
+   Bumps the github-actions group with 1 update: [actions/checkout](https://github.com/actions/checkout).
+   
+   
+   Updates `actions/checkout` from 4 to 5
+   - [Release notes](https://github.com/actions/checkout/releases)
+   - [Changelog](https://github.com/actions/checkout/blob/main/CHANGELOG.md)
+   - [Commits](https://github.com/actions/checkout/compare/v4...v5)
+   
+   ---
+   updated-dependencies:
+   - dependency-name: actions/checkout
+     dependency-version: '5'
+     dependency-type: direct:production
+     update-type: version-update:semver-major
+     dependency-group: github-actions
+   ...
+
+### Chore (BREAKING)
+
+ - <csr-id-b6ea951130ea00be599d30e842cad60bee930f7d/> update `ratatui` to v0.30
+
+### Commit Statistics
+
+<csr-read-only-do-not-edit/>
+
+ - 12 commits contributed to the release.
+ - 5 commits were understood as [conventional](https://www.conventionalcommits.org).
+ - 0 issues like '(#ID)' were seen in commit messages
+
+### Thanks Clippy
+
+<csr-read-only-do-not-edit/>
+
+[Clippy](https://github.com/rust-lang/rust-clippy) helped 1 time to make code idiomatic. 
+
+### Commit Details
+
+<csr-read-only-do-not-edit/>
+
+<details><summary>view details</summary>
+
+ * **Uncategorized**
+    - Merge pull request #48 from GitoxideLabs/updates ([`7a2dbe0`](https://github.com/byron/prodash/commit/7a2dbe013e311e195cfe4c8a71953cdca8d55efa))
+    - Fix ratatui 0.30 compatibility issues ([`40d1a75`](https://github.com/byron/prodash/commit/40d1a759dfeff2795b76fc47544a30ab24d30628))
+    - Update `ratatui` to v0.30 ([`b6ea951`](https://github.com/byron/prodash/commit/b6ea951130ea00be599d30e842cad60bee930f7d))
+    - Merge pull request #47 from GitoxideLabs/updates ([`94b760f`](https://github.com/byron/prodash/commit/94b760ff7b58a6189e93352a7cfabb3312e7b021))
+    - Update various dependnecies ([`7d21bb5`](https://github.com/byron/prodash/commit/7d21bb5cff9a7df720e9e56419235e76a9924f0b))
+    - Thanks clippy ([`aed743a`](https://github.com/byron/prodash/commit/aed743a949e14af905642170e61978e6d1405637))
+    - Merge pull request #45 from GitoxideLabs/dependabot/github_actions/github-actions-76468cb07f ([`0e24337`](https://github.com/byron/prodash/commit/0e24337b8ed9a8bfc59457f4718eafdf4454d527))
+    - Bump actions/checkout in the github-actions group ([`8bdc425`](https://github.com/byron/prodash/commit/8bdc42571ebdda35a05df55129b0a759698b10f6))
+    - Merge pull request #44 from GitoxideLabs/dependabot/github_actions/github-actions-a331d3ec2d ([`f978c6f`](https://github.com/byron/prodash/commit/f978c6f55f5e56b5a755342982210cd8a5cd05f9))
+    - Bump actions/checkout in the github-actions group ([`2717e5b`](https://github.com/byron/prodash/commit/2717e5b4fdb86099913764fc4e004c0c00c78a08))
+    - Merge pull request #43 from slowmman/ft-fix-doc-links ([`423ff21`](https://github.com/byron/prodash/commit/423ff21c7d49b5048731aa159617c70e1b8d4b9f))
+    - Fix a few broken doc links ([`3df0069`](https://github.com/byron/prodash/commit/3df00691101d2d21eeb82df03dbe1ca3bf45263e))
+</details>
+
 ## 30.0.1 (2025-06-14)
 
 ### Documentation
@@ -16,7 +102,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 <csr-read-only-do-not-edit/>
 
- - 4 commits contributed to the release.
+ - 5 commits contributed to the release.
+ - 1 day passed between releases.
  - 1 commit was understood as [conventional](https://www.conventionalcommits.org).
  - 0 issues like '(#ID)' were seen in commit messages
 
@@ -27,6 +114,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 <details><summary>view details</summary>
 
  * **Uncategorized**
+    - Release prodash v30.0.1 ([`171a83d`](https://github.com/byron/prodash/commit/171a83db7dcba88f3debdd2be63b77a83c622d31))
     - Merge pull request #42 from EliahKagan/update-doc-next ([`0f261de`](https://github.com/byron/prodash/commit/0f261de75dfcb9b1f865f5219cf8dc2a42c8e39b))
     - Don't describe `progress-tree-log` as a default feature in readme ([`901359a`](https://github.com/byron/prodash/commit/901359a7d55c62d7dfce48b720b1349d75a0bd95))
     - Merge pull request #41 from EliahKagan/update-doc ([`cf70e4a`](https://github.com/byron/prodash/commit/cf70e4a5092baa67f41caf6e2c3f6e0646b962f6))
@@ -100,9 +188,6 @@ progress-by-logging will have to add the feature themselves.
     - Make CI easier to run in forks ([`fc6cce5`](https://github.com/byron/prodash/commit/fc6cce5ad3cd22f8d7fb39f7733470038cfdc6ed))
     - Use more consistent indentation in CI workflow ([`db0f01e`](https://github.com/byron/prodash/commit/db0f01e50412e46b998ef24c8a68ba56e047d260))
 </details>
-
-<csr-unknown>
-Add a SECURITY.md file with the same wording as in gitoxideand cargo-smart-release, with a hyperlink to draft a prodashadvisory.<csr-unknown/>
 
 ## 29.0.2 (2025-04-13)
 
