@@ -132,7 +132,7 @@ fn messages(
 
 pub fn all(out: &mut impl io::Write, show_progress: bool, state: &mut State, config: &Options) -> io::Result<()> {
     if !config.keep_running_if_progress_is_empty && state.tree.is_empty() {
-        return Err(io::Error::new(io::ErrorKind::Other, "stop as progress is empty"));
+        return Err(io::Error::other("stop as progress is empty"));
     }
     messages(
         out,
