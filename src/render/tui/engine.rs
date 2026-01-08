@@ -122,7 +122,7 @@ pub enum Event {
 /// Returns a future that draws the terminal user interface indefinitely.
 ///
 /// * `progress` is the progress tree whose information to visualize.
-///    It will usually be changing constantly while the TUI holds it.
+///   It will usually be changing constantly while the TUI holds it.
 /// * `options` are configuring the TUI.
 /// * `events` is a stream of `Event`s which manipulate the TUI while it is running
 ///
