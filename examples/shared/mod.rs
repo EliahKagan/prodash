@@ -8,7 +8,7 @@ use prodash::{
     },
     tree::Root as Tree,
 };
-use rand::{seq::SliceRandom, thread_rng, Rng};
+use rand::{prelude::IndexedRandom, seq::SliceRandom, thread_rng, Rng};
 
 pub mod args;
 mod spawn;
