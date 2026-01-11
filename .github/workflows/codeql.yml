@@ -9,15 +9,22 @@
 # the `language` matrix defined below to confirm you have the correct set of
 # supported CodeQL languages.
 #
-name: "CodeQL Advanced"
+name: CodeQL
 
 on:
   push:
-    branches: [ "main" ]
+    branches:
+    - main
+    - "run-ci/**"
+    - "**/run-ci/**"
   pull_request:
-    branches: [ "main" ]
+    branches:
+    - main
   schedule:
-    - cron: '28 17 * * 3'
+  - cron: '28 17 * * 3'
+  workflow_dispatch:
+
+permissions: {}  # Expanded in the `analyze` job.
 
 jobs:
   analyze:
@@ -30,14 +37,14 @@ jobs:
     runs-on: ${{ (matrix.language == 'swift' && 'macos-latest') || 'ubuntu-latest' }}
     permissions:
       # required for all workflows
-      security-events: write
+      security-events: write  # For uploading SARIF to view in the Security tab.
 
       # required to fetch internal or private CodeQL packs
-      packages: read
+      # packages: read
 
       # only required for workflows in private repositories
-      actions: read
-      contents: read
+      # actions: read
+      # contents: read
 
     strategy:
       fail-fast: false
@@ -57,7 +64,9 @@ jobs:
         # your codebase is analyzed, see https://docs.github.com/en/code-security/code-scanning/creating-an-advanced-setup-for-code-scanning/codeql-code-scanning-for-compiled-languages
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v4
+      uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+      with:
+        persist-credentials: false
 
     # Add any setup steps before running the `github/codeql-action/init` action.
     # This includes steps like installing compilers or runtimes (`actions/setup-node`
@@ -67,7 +76,7 @@ jobs:
 
     # Initializes the CodeQL tools for scanning.
     - name: Initialize CodeQL
-      uses: github/codeql-action/init@v4
+      uses: github/codeql-action/init@5d4e8d1aca955e8d8589aabd499c5cae939e33c7 # v4.31.9
       with:
         languages: ${{ matrix.language }}
         build-mode: ${{ matrix.build-mode }}
@@ -76,7 +85,7 @@ jobs:
         # Prefix the list here with "+" to use these queries and those in the config file.
 
         # For more details on CodeQL's query packs, refer to: https://docs.github.com/en/code-security/code-scanning/automatically-scanning-your-code-for-vulnerabilities-and-errors/configuring-code-scanning#using-queries-in-ql-packs
-        # queries: security-extended,security-and-quality
+        queries: security-extended,security-and-quality
 
     # If the analyze step fails for one of the languages you are analyzing with
     # "We were unable to automatically build your code", modify the matrix above
@@ -96,6 +105,6 @@ jobs:
         exit 1
 
     - name: Perform CodeQL Analysis
-      uses: github/codeql-action/analyze@v4
+      uses: github/codeql-action/analyze@5d4e8d1aca955e8d8589aabd499c5cae939e33c7 # v4.31.9
       with:
-        category: "/language:${{matrix.language}}"
+        category: "/language:${{ matrix.language }}"
