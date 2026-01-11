@@ -9,6 +9,7 @@ on:
   pull_request:
     branches:
     - main
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -17,7 +18,9 @@ jobs:
   build-and-test-linux:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v6
+    - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+      with:
+        persist-credentials: false
     - name: fmt
       run: cargo fmt --all -- --check
     - name: clippy
@@ -25,7 +28,7 @@ jobs:
     - name: tests
       run: make tests
     - name: "Check (crossterm)"
-      uses: actions-rs/cargo@v1
+      uses: actions-rs/cargo@844f36862e911db73fe0815f00a4a2602c279505 # v1.0.3
       with:
         command: test
         args: --features=render-tui,render-tui-crossterm,render-line,render-line-crossterm,signal-hook,render-line-autoconfigure,progress-tree --all --bins --tests --examples
@@ -35,19 +38,21 @@ jobs:
   build-and-test-on-windows:
     runs-on: windows-latest
     steps:
-    - uses: actions/checkout@v6
-    - uses: actions-rs/toolchain@v1
+    - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+      with:
+        persist-credentials: false
+    - uses: actions-rs/toolchain@16499b5e05bf2e26879000db0c1d13f7e13fa3af # v1.0.7
       with:
         profile: default
         toolchain: stable
         override: true
     - name: "Check (crossterm)"
-      uses: actions-rs/cargo@v1
+      uses: actions-rs/cargo@844f36862e911db73fe0815f00a4a2602c279505 # v1.0.3
       with:
         command: check
         args: --features=render-tui,render-tui-crossterm,render-line,render-line-crossterm,signal-hook,render-line-autoconfigure,progress-tree --all --bins --tests --examples
     - name: "Test (crossterm)"
-      uses: actions-rs/cargo@v1
+      uses: actions-rs/cargo@844f36862e911db73fe0815f00a4a2602c279505 # v1.0.3
       with:
         command: test
         args: --features=render-tui,render-tui-crossterm,render-line,render-line-crossterm,signal-hook,render-line-autoconfigure,progress-tree progress-tree" --all
