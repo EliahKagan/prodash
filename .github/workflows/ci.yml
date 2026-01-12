@@ -21,17 +21,20 @@ jobs:
     - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
       with:
         persist-credentials: false
+    - name: Install Rust
+      run: |
+        rustup update stable
+        rustup default stable
+        rustup component add clippy rustfmt
     - name: fmt
       run: cargo fmt --all -- --check
     - name: clippy
       run: cargo clippy
     - name: tests
       run: make tests
-    - name: "Check (crossterm)"
-      uses: actions-rs/cargo@844f36862e911db73fe0815f00a4a2602c279505 # v1.0.3
-      with:
-        command: test
-        args: --features=render-tui,render-tui-crossterm,render-line,render-line-crossterm,signal-hook,render-line-autoconfigure,progress-tree --all --bins --tests --examples
+    - name: "Test (crossterm)"
+      run: |
+        cargo test --features=render-tui,render-tui-crossterm,render-line,render-line-crossterm,signal-hook,render-line-autoconfigure,progress-tree --all --bins --tests --examples
     - name: benchmarks
       run: make bench-ci
 
@@ -41,18 +44,14 @@ jobs:
     - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
       with:
         persist-credentials: false
-    - uses: actions-rs/toolchain@16499b5e05bf2e26879000db0c1d13f7e13fa3af # v1.0.7
-      with:
-        profile: default
-        toolchain: stable
-        override: true
+    - name: Install Rust
+      shell: bash  # Use `bash` even on Windows, for `set -e` behavior.
+      run: |
+        rustup update stable
+        rustup default stable
     - name: "Check (crossterm)"
-      uses: actions-rs/cargo@844f36862e911db73fe0815f00a4a2602c279505 # v1.0.3
-      with:
-        command: check
-        args: --features=render-tui,render-tui-crossterm,render-line,render-line-crossterm,signal-hook,render-line-autoconfigure,progress-tree --all --bins --tests --examples
+      run: |
+        cargo check --features=render-tui,render-tui-crossterm,render-line,render-line-crossterm,signal-hook,render-line-autoconfigure,progress-tree --all --bins --tests --examples
     - name: "Test (crossterm)"
-      uses: actions-rs/cargo@844f36862e911db73fe0815f00a4a2602c279505 # v1.0.3
-      with:
-        command: test
-        args: --features=render-tui,render-tui-crossterm,render-line,render-line-crossterm,signal-hook,render-line-autoconfigure,progress-tree --all -- --skip render::tui
+      run: |
+        cargo test --features=render-tui,render-tui-crossterm,render-line,render-line-crossterm,signal-hook,render-line-autoconfigure,progress-tree --all -- --skip render::tui
