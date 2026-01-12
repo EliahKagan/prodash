@@ -8,7 +8,7 @@ use prodash::{
     },
     tree::Root as Tree,
 };
-use rand::{seq::SliceRandom, thread_rng, Rng};
+use rand::{prelude::IndexedRandom, rng, seq::SliceRandom, Rng};
 
 pub mod args;
 mod spawn;
@@ -62,7 +62,7 @@ pub fn launch_ambient_gui(
                     std::io::stdout(),
                     Arc::downgrade(&progress),
                     tui::Options {
-                        title: TITLES.choose(&mut thread_rng()).copied().unwrap().into(),
+                        title: TITLES.choose(&mut rng()).copied().unwrap().into(),
                         frames_per_second: args.fps,
                         recompute_column_width_every_nth_frame: args.recompute_column_width_every_nth_frame,
                         throughput,
@@ -81,8 +81,8 @@ pub fn launch_ambient_gui(
                                     Event::SetInterruptMode(Interrupt::Deferred)
                                 };
                             }
-                            if thread_rng().gen_bool(0.5) {
-                                Event::SetTitle(TITLES.choose(&mut thread_rng()).unwrap().to_string())
+                            if rng().random_bool(0.5) {
+                                Event::SetTitle(TITLES.choose(&mut rng()).unwrap().to_string())
                             } else {
                                 Event::SetInformation(generate_statistics())
                             }
@@ -112,31 +112,28 @@ fn generate_statistics() -> Vec<Line> {
         Line::Text("煮豆燃豆萁，豆在釜中泣。本自同根生，相煎何太急".into()),
         Line::Text("and this line is without any doubt very very long and it really doesn't want to stop".into()),
     ];
-    lines.shuffle(&mut thread_rng());
+    lines.shuffle(&mut rng());
     lines.insert(0, Line::Title("Hello World".into()));
 
     lines.extend(vec![
         Line::Title("Statistics".into()),
         Line::Text(format!(
             "lines of unsafe code: {}",
-            thread_rng().gen_range(0usize..=1_000_000)
+            rng().random_range(0usize..=1_000_000)
         )),
         Line::Text(format!(
             "wasted space in crates: {} Kb",
-            thread_rng().gen_range(100usize..=1_000_000)
+            rng().random_range(100usize..=1_000_000)
         )),
         Line::Text(format!(
             "unused dependencies: {} crates",
-            thread_rng().gen_range(100usize..=1_000)
+            rng().random_range(100usize..=1_000)
         )),
         Line::Text(format!(
             "average #dependencies: {} crates",
-            thread_rng().gen_range(0usize..=500)
+            rng().random_range(0usize..=500)
         )),
-        Line::Text(format!(
-            "bloat in code: {} Kb",
-            thread_rng().gen_range(100usize..=5_000)
-        )),
+        Line::Text(format!("bloat in code: {} Kb", rng().random_range(100usize..=5_000))),
     ]);
     lines
 }

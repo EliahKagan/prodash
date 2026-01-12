@@ -52,20 +52,20 @@ async fn work_forever(mut args: args::Options) -> Result {
 
     loop {
         let local_work = new_chunk_of_work(
-            NestingLevel(thread_rng().gen_range(0..=Key::max_level())),
+            NestingLevel(rng().random_range(0..=Key::max_level())),
             progress.clone(),
             speed,
             changing_names,
         )
         .boxed_local();
         let num_chunks = if work_min < work_max {
-            thread_rng().gen_range(work_min..=work_max)
+            rng().random_range(work_min..=work_max)
         } else {
             work_min
         };
         let pooled_work = (0..num_chunks).map(|_| {
             spawn(new_chunk_of_work(
-                NestingLevel(thread_rng().gen_range(0..=Key::max_level())),
+                NestingLevel(rng().random_range(0..=Key::max_level())),
                 progress.clone(),
                 speed,
                 changing_names,
@@ -95,7 +95,7 @@ async fn work_forever(mut args: args::Options) -> Result {
 }
 
 async fn work_item(mut progress: Item, speed: f32, changing_names: bool) {
-    let max: u8 = thread_rng().gen_range(25..=125);
+    let max: u8 = rng().random_range(25..=125);
     progress.init(
         if max > WORK_STEPS_NEEDED_FOR_UNBOUNDED_TASK {
             None
@@ -105,45 +105,42 @@ async fn work_item(mut progress: Item, speed: f32, changing_names: bool) {
         if (max as usize % UNITS.len() + 1) == 0 {
             None
         } else {
-            UNITS.choose(&mut thread_rng()).copied().map(Into::into)
+            UNITS.choose(&mut rng()).copied().map(Into::into)
         },
     );
 
     for step in 0..max {
         progress.set(step as Step);
-        let delay_ms = if thread_rng().gen_bool(CHANCE_TO_BLOCK_PER_STEP) {
-            let eta = if thread_rng().gen_bool(CHANCE_TO_SHOW_ETA) {
+        let delay_ms = if rng().random_bool(CHANCE_TO_BLOCK_PER_STEP) {
+            let eta = if rng().random_bool(CHANCE_TO_SHOW_ETA) {
                 Some(SystemTime::now().add(Duration::from_millis(LONG_WORK_DELAY_MS)))
             } else {
                 None
             };
-            if thread_rng().gen_bool(0.5) {
-                progress.halted(REASONS.choose(&mut thread_rng()).unwrap(), eta);
+            if rng().random_bool(0.5) {
+                progress.halted(REASONS.choose(&mut rng()).unwrap(), eta);
             } else {
-                progress.blocked(REASONS.choose(&mut thread_rng()).unwrap(), eta);
+                progress.blocked(REASONS.choose(&mut rng()).unwrap(), eta);
             }
-            thread_rng().gen_range(WORK_DELAY_MS..=LONG_WORK_DELAY_MS)
+            rng().random_range(WORK_DELAY_MS..=LONG_WORK_DELAY_MS)
         } else {
-            thread_rng().gen_range(SHORT_DELAY_MS..=WORK_DELAY_MS)
+            rng().random_range(SHORT_DELAY_MS..=WORK_DELAY_MS)
         };
-        if thread_rng().gen_bool(0.01) {
-            progress.init(
-                Some(max.into()),
-                UNITS.choose(&mut thread_rng()).copied().map(Into::into),
-            )
+        if rng().random_bool(0.01) {
+            progress.init(Some(max.into()), UNITS.choose(&mut rng()).copied().map(Into::into))
         }
-        if thread_rng().gen_bool(0.01) {
-            progress.info(*INFO_MESSAGES.choose(&mut thread_rng()).unwrap());
+        if rng().random_bool(0.01) {
+            progress.info(*INFO_MESSAGES.choose(&mut rng()).unwrap());
         }
-        if thread_rng().gen_bool(if changing_names { 0.5 } else { 0.01 }) {
-            progress.set_name(WORK_NAMES.choose(&mut thread_rng()).unwrap().to_string());
+        if rng().random_bool(if changing_names { 0.5 } else { 0.01 }) {
+            progress.set_name(WORK_NAMES.choose(&mut rng()).unwrap().to_string());
         }
         async_io::Timer::after(Duration::from_millis((delay_ms as f32 / speed) as u64)).await;
     }
-    if thread_rng().gen_bool(0.95) {
-        progress.done(*DONE_MESSAGES.choose(&mut thread_rng()).unwrap());
+    if rng().random_bool(0.95) {
+        progress.done(*DONE_MESSAGES.choose(&mut rng()).unwrap());
     } else {
-        progress.fail(*FAIL_MESSAGES.choose(&mut thread_rng()).unwrap());
+        progress.fail(*FAIL_MESSAGES.choose(&mut rng()).unwrap());
     }
 }
 
@@ -158,7 +155,7 @@ async fn new_chunk_of_work(max: NestingLevel, tree: Arc<Tree>, speed: f32, chang
         let num_tasks = max_level as usize * 2;
         for id in 0..num_tasks {
             let handle = spawn(work_item(
-                level_progress.add_child(format!("{} {}", WORK_NAMES.choose(&mut thread_rng()).unwrap(), id + 1)),
+                level_progress.add_child(format!("{} {}", WORK_NAMES.choose(&mut rng()).unwrap(), id + 1)),
                 speed,
                 changing_names,
             ));
@@ -199,7 +196,7 @@ use prodash::{
     progress::{Key, Step},
     tree::{Item, Root as Tree},
 };
-use rand::prelude::*;
+use rand::{prelude::IndexedRandom, rng, Rng};
 
 const WORK_STEPS_NEEDED_FOR_UNBOUNDED_TASK: u8 = 100;
 const UNITS: &[&str] = &["Mb", "kb", "items", "files"];
