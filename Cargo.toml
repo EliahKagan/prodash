@@ -80,12 +80,12 @@ jiff = { version = "0.2.4", optional = true }
 
 # line renderer
 ctrlc = { version = "3.1.4", optional = true, default-features = false, features = ['termination'] }
-signal-hook = { version = "0.4.1", optional = true, default-features = false }
+signal-hook = { version = "0.4.3", optional = true, default-features = false }
 is-terminal = { version = "0.4.9", optional = true }
 
 # units
 bytesize = { version = "2.0.1", optional = true }
-human_format = { version = "1.0.3", optional = true }
+human_format = { version = "1.2.1", optional = true }
 
 [package.metadata.docs.rs]
 all-features = true
