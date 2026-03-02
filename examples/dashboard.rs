@@ -196,7 +196,7 @@ use prodash::{
     progress::{Key, Step},
     tree::{Item, Root as Tree},
 };
-use rand::{prelude::IndexedRandom, rng, Rng};
+use rand::{prelude::IndexedRandom, rng, RngExt};
 
 const WORK_STEPS_NEEDED_FOR_UNBOUNDED_TASK: u8 = 100;
 const UNITS: &[&str] = &["Mb", "kb", "items", "files"];
