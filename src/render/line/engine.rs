@@ -7,7 +7,7 @@ use std::{
     time::Duration,
 };
 
-use crate::{progress, render::line::draw, Throughput, WeakRoot};
+use crate::{Throughput, WeakRoot, progress, render::line::draw};
 
 /// Options used for configuring a [line renderer][render()].
 #[derive(Clone)]
@@ -252,24 +252,26 @@ pub fn render(
                 let secs = 1.0 / frames_per_second;
                 let _ticker = std::thread::Builder::new()
                     .name("render-line-ticker".into())
-                    .spawn(move || loop {
-                        #[cfg(feature = "signal-hook")]
-                        {
-                            if term_signal_received.load(Ordering::SeqCst) {
-                                tick_send.send(Event::Quit).ok();
-                                break;
-                            }
-                            if terminal_resized.load(Ordering::SeqCst) {
-                                terminal_resized.store(false, Ordering::SeqCst);
-                                if let Ok((x, y)) = crosstermion::terminal::size() {
-                                    tick_send.send(Event::Resize(x, y)).ok();
+                    .spawn(move || {
+                        loop {
+                            #[cfg(feature = "signal-hook")]
+                            {
+                                if term_signal_received.load(Ordering::SeqCst) {
+                                    tick_send.send(Event::Quit).ok();
+                                    break;
+                                }
+                                if terminal_resized.load(Ordering::SeqCst) {
+                                    terminal_resized.store(false, Ordering::SeqCst);
+                                    if let Ok((x, y)) = crosstermion::terminal::size() {
+                                        tick_send.send(Event::Resize(x, y)).ok();
+                                    }
                                 }
                             }
+                            if tick_send.send(Event::Tick).is_err() {
+                                break;
+                            }
+                            std::thread::sleep(Duration::from_secs_f32(secs));
                         }
-                        if tick_send.send(Event::Tick).is_err() {
-                            break;
-                        }
-                        std::thread::sleep(Duration::from_secs_f32(secs));
                     })
                     .expect("starting a thread works");
 

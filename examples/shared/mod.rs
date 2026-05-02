@@ -4,15 +4,15 @@ use futures_util::{future::FutureExt, stream::StreamExt};
 use prodash::{
     render::{
         line,
-        tui::{self, ticker, Event, Interrupt, Line},
+        tui::{self, Event, Interrupt, Line, ticker},
     },
     tree::Root as Tree,
 };
-use rand::{prelude::IndexedRandom, rng, seq::SliceRandom, RngExt};
+use rand::{RngExt, prelude::IndexedRandom, rng, seq::SliceRandom};
 
 pub mod args;
 mod spawn;
-pub use spawn::{spawn, Task};
+pub use spawn::{Task, spawn};
 
 enum Direction {
     Shrink,

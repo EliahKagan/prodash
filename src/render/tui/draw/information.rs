@@ -7,8 +7,8 @@ use tui::{
 };
 
 use crate::render::tui::{
-    utils::{block_width, draw_text_with_ellipsis_nowrap, rect},
     Line,
+    utils::{block_width, draw_text_with_ellipsis_nowrap, rect},
 };
 
 pub fn pane(lines: &[Line], bound: Rect, buf: &mut Buffer) {
