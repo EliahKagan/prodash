@@ -189,14 +189,14 @@ use std::{
 };
 
 use futures_util::{
-    future::{join_all, Either},
     FutureExt,
+    future::{Either, join_all},
 };
 use prodash::{
     progress::{Key, Step},
     tree::{Item, Root as Tree},
 };
-use rand::{prelude::IndexedRandom, rng, RngExt};
+use rand::{RngExt, prelude::IndexedRandom, rng};
 
 const WORK_STEPS_NEEDED_FOR_UNBOUNDED_TASK: u8 = 100;
 const UNITS: &[&str] = &["Mb", "kb", "items", "files"];

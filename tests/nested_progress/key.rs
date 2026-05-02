@@ -7,8 +7,8 @@ fn size_in_memory() {
 
 mod adjacency {
     use prodash::progress::{
-        key::{Adjacency, SiblingLocation::*},
         Key, Task,
+        key::{Adjacency, SiblingLocation::*},
     };
 
     fn to_kv(keys: &[Key]) -> Vec<(Key, Task)> {

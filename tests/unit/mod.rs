@@ -13,7 +13,7 @@ mod dynamic {
     }
     #[cfg(feature = "unit-human")]
     mod human {
-        use prodash::unit::{self, display, human, Human};
+        use prodash::unit::{self, Human, display, human};
 
         #[test]
         fn various_combinations() {
@@ -36,7 +36,7 @@ mod dynamic {
         }
     }
     mod range {
-        use prodash::unit::{self, display, Range};
+        use prodash::unit::{self, Range, display};
         #[test]
         fn value_and_upper_bound_with_percentage() {
             let unit = unit::dynamic_and_mode(Range::new("steps"), display::Mode::with_percentage());
@@ -47,7 +47,7 @@ mod dynamic {
     }
     #[cfg(feature = "unit-bytes")]
     mod bytes {
-        use prodash::unit::{self, display, Bytes};
+        use prodash::unit::{self, Bytes, display};
 
         #[test]
         fn value_and_upper_bound_use_own_unit() {
@@ -244,7 +244,7 @@ mod label {
 mod size {
     use std::mem::size_of;
 
-    use prodash::unit::{display, Unit};
+    use prodash::unit::{Unit, display};
 
     #[test]
     fn of_mode() {

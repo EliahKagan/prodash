@@ -10,8 +10,10 @@ pub fn spawn<T: Send + 'static>(future: impl Future<Output = T> + Send + 'static
     static GLOBAL: Lazy<Executor<'_>> = Lazy::new(|| {
         thread::Builder::new()
             .name("smol-one".into())
-            .spawn(|| loop {
-                catch_unwind(|| async_io::block_on(GLOBAL.run(future::pending::<()>()))).ok();
+            .spawn(|| {
+                loop {
+                    catch_unwind(|| async_io::block_on(GLOBAL.run(future::pending::<()>()))).ok();
+                }
             })
             .expect("cannot spawn executor thread");
 

@@ -1,8 +1,8 @@
 use criterion::*;
 use prodash::{
-    messages::MessageLevel,
-    tree::{root::Options as TreeOptions, Root as Tree},
     BoxedDynNestedProgress, Count,
+    messages::MessageLevel,
+    tree::{Root as Tree, root::Options as TreeOptions},
 };
 use std::sync::atomic::Ordering;
 

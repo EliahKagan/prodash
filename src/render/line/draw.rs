@@ -1,5 +1,5 @@
 use std::{
-    collections::{hash_map::DefaultHasher, VecDeque},
+    collections::{VecDeque, hash_map::DefaultHasher},
     hash::{Hash, Hasher},
     io,
     ops::RangeInclusive,
@@ -13,9 +13,10 @@ use crosstermion::{
 use unicode_width::UnicodeWidthStr;
 
 use crate::{
+    Root, Throughput,
     messages::{Message, MessageCopyState, MessageLevel},
     progress::{self, Value},
-    unit, Root, Throughput,
+    unit,
 };
 
 #[derive(Default)]
@@ -269,11 +270,7 @@ fn progress_style(p: &Value) -> Style {
     use crate::progress::State::*;
     match p.state {
         Running => if let Some(fraction) = p.fraction() {
-            if fraction > 0.8 {
-                Color::Green
-            } else {
-                Color::Yellow
-            }
+            if fraction > 0.8 { Color::Green } else { Color::Yellow }
         } else {
             Color::White
         }
