@@ -1,0 +1,33 @@
+# Check optional and development dependencies on all platforms.
+[graph]
+all-features = true
+
+# https://embarkstudios.github.io/cargo-deny/checks/advisories/cfg.html
+[advisories]
+# Include transitive dependencies, rather than inheriting workspace-only scopes.
+unsound = "all"
+unmaintained = "all"
+ignore = []
+
+# https://embarkstudios.github.io/cargo-deny/checks/licenses/cfg.html
+[licenses]
+allow = ["Apache-2.0", "BSD-3-Clause", "MIT", "Unicode-3.0", "Zlib"]
+confidence-threshold = 0.8
+
+# https://embarkstudios.github.io/cargo-deny/checks/bans/cfg.html
+[bans]
+# Upstream crates currently require different versions of hashbrown, signal-hook,
+# and syn. Keep these visible without treating duplication itself as a failure.
+multiple-versions = "warn"
+deny = [
+    # These releases used a precompiled binary instead of building from source.
+    # https://github.com/serde-rs/serde/issues/2538
+    # https://github.com/serde-rs/serde/pull/2590
+    { name = "serde_derive", version = ">1.0.171, <1.0.185" },
+]
+
+# https://embarkstudios.github.io/cargo-deny/checks/sources/cfg.html
+[sources]
+unknown-registry = "deny"
+unknown-git = "deny"
+allow-registry = ["https://github.com/rust-lang/crates.io-index"]
